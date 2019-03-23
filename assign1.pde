@@ -2,7 +2,8 @@
   float soldierX,soldierY;
   float speedX=2;
   float robotX,robotY;
-  float lineX;
+  float lineX,lineX1,lineX2,lineDistance,lineMove;
+  float laserMaxLength=40;
 
 
   
@@ -17,11 +18,12 @@ void setup() {
   groundhog = loadImage("img/groundhog.png");
   robot = loadImage("img/robot.png");
   robotX = floor(random(3,8))*80;
-  robotY = floor(random(3,6))*80;
-  lineX=robotX+25;
+  robotY = floor(random(2,6))*80;
+  lineX = robotX+25;
   soil = loadImage("img/soil.png");
   soldier = loadImage("img/soldier.png");
-  soldierY= floor(random(3,6))*80;
+  soldierY= floor(random(2,6))*80;
+ 
 
 }
 
@@ -48,18 +50,19 @@ void draw() {
   image(groundhog,w/2-40,h/6);
   
   //soilier
-  image(soldier,soldierX,soldierY);
+  image(soldier,soldierX-80,soldierY);
   soldierX+= speedX;
   soldierX %= 720;
   
   //robot
   image(robot,robotX,robotY);
+  
+  //line
   strokeWeight(10);
   stroke(255,0,0);
-  lineX-=speedX;
-  lineX%=(robotX-185);
-  line(lineX,robotY+37,lineX-20,robotY+37);
-  
-  
+  lineDistance = (lineDistance+2)%160;
+  lineX1=min(lineX,lineX-lineDistance);
+  lineX2=min(lineX,lineX1+laserMaxLength);
+  line(lineX1,robotY+37,lineX2,robotY+37);
   
 }
